@@ -2,6 +2,7 @@ import Joi from "joi";
 import { UserModel } from "../../models";
 import CustomeErrorHandler from "../../customError/CustomErrorHandler";
 import bcrypt from 'bcrypt';
+import JwtServices from "../../JWTservices/JwtServices";
 
 const loginController = {
     async login(req, res, next){
@@ -17,17 +18,24 @@ const loginController = {
         }
 
         try{
-            const user = await UserModel.exists({ email: req.body.email });
+            
+            const user = await UserModel.findOne({ email: req.body.email });
 
             if(!user){
-                return next(CustomeErrorHandler.WrongEmail("Email is not valid"))
+                return next(CustomeErrorHandler.WrongEmail("Email is not registerd, please create an account first"))
             }
-
+            //console.log(user)
             const passwordMatch = await bcrypt.compare(req.body.password, user.password);
-
             if(!passwordMatch){
                 return next(CustomeErrorHandler.WrongPassword("password is wrong"));
             }
+
+            //generating acess token/refresh token for the user now
+            const accessToken = JwtServices.sign({_id: user.id, role: user.role});
+            //console.log(accessToken)
+            res.json({accessToken: accessToken})
+
+
         }catch(err){
             return next(err);
         }
