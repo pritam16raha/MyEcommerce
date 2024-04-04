@@ -24,6 +24,14 @@ class CustomeErrorHandler extends Error {
     static WrongPassword(message){
         return new CustomeErrorHandler(505, message);
     }
+
+    static unauthorisedToken(message){
+        return new CustomeErrorHandler(506, message);
+    }
+
+    static userNotFound(message){
+        return new CustomeErrorHandler(507, message);
+    }
 }
 
 export default CustomeErrorHandler;
