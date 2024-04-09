@@ -32,6 +32,10 @@ class CustomeErrorHandler extends Error {
     static userNotFound(message){
         return new CustomeErrorHandler(507, message);
     }
+
+    static voidToken(message){
+        return new CustomeErrorHandler(507, message);
+    }
 }
 
 export default CustomeErrorHandler;
