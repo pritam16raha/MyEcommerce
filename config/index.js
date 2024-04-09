@@ -7,5 +7,6 @@
     LOCALDB,
     MONGODB,
     ECOMDB,
-    JWTSECRET
+    JWTSECRET,
+    REFRESHKEY
  } = process.env;

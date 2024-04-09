@@ -1,8 +1,9 @@
 import Joi, { string } from "joi";
-import { UserModel } from "../../models";
+import { UserModel, refreshTokenModel } from "../../models";
 import CustomeErrorHandler from "../../customError/CustomErrorHandler";
 import bcrypt from "bcrypt";
 import JwtServices from "../../JWTservices/JwtServices";
+import { REFRESHKEY } from "../../config";
 
 const registerController = {
   async register(req, res, next) {
@@ -65,6 +66,10 @@ const registerController = {
       //sending the token to the client. if you dont know, what token do, please more ja!
       accessToken = JwtServices.sign({ _id: userDataResult._id , role: userDataResult.role })
       //console.log(accessToken);
+      refreshToken = JwtServices.sign({ _id: userDataResult._id , role: userDataResult.role}, '365d' , REFRESHKEY)
+
+      //saving the refresh token in refreshToken collection
+      await refreshTokenModel.create({ Ref_Token: refreshToken })
 
     } catch (err) {
       CustomeErrorHandler.UserDataNotSaved(
@@ -72,7 +77,7 @@ const registerController = {
       );
     }
     
-    res.json({ accessToken: accessToken });
+    res.json({ accessToken: accessToken, refreshToken: refreshToken });
   },
 };
 
