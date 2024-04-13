@@ -26,7 +26,7 @@ const userAuth = async (req, res, next) => {
 
 
     } catch(err){
-        return next(CustomeErrorHandler.unauthorisedToken("Access Token must be tampered"));
+        return next(CustomeErrorHandler.unauthorisedToken("Access Token error from userAuth.js"));
     }
 
 }

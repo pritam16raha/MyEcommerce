@@ -47,6 +47,38 @@ const loginController = {
         }catch(err){
             return next(err);
         }
+    },
+
+    async logout(req, res, next){
+        //1st joi validation
+       const refreshTokenSchema = Joi.object({
+        ref_token: Joi.string().required()
+       });
+
+       const { error } = refreshTokenSchema.validate(req.body);
+
+       if(error){
+        return next(error);
+       }
+
+       let refreshToken;
+       try{
+        refreshToken = await refreshTokenModel.findOne({ Ref_token: req.body.ref_token });
+
+        if(!refreshToken){
+            return next(CustomeErrorHandler.unauthorisedToken("Only registered user can logout"));
+        }
+
+        try{
+            await refreshTokenModel.deleteOne({ Ref_Token: req.body.ref_token })
+        }catch(err){
+            return next(CustomeErrorHandler.voidToken("token is not found in DB"))
+        }
+       }catch(err){
+        return next(new Error("logout was unsuccessfull"));
+       }
+
+       res.json({ status: 1 })
     }
 }
 

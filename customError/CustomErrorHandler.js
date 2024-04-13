@@ -34,7 +34,11 @@ class CustomeErrorHandler extends Error {
     }
 
     static voidToken(message){
-        return new CustomeErrorHandler(507, message);
+        return new CustomeErrorHandler(508, message);
+    }
+
+    static fakeUser(message){
+        return new CustomeErrorHandler(509, message);
     }
 }
 
