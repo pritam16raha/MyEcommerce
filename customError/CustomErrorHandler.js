@@ -25,7 +25,7 @@ class CustomeErrorHandler extends Error {
         return new CustomeErrorHandler(505, message);
     }
 
-    static unauthorisedToken(message){
+    static unauthorisedToken(message="token might be unauthorised"){
         return new CustomeErrorHandler(506, message);
     }
 
@@ -39,6 +39,14 @@ class CustomeErrorHandler extends Error {
 
     static fakeUser(message){
         return new CustomeErrorHandler(509, message);
+    }
+
+    static multerError(message = "multer error or server error"){
+        return new CustomeErrorHandler(510, message);
+    }
+
+    static serverError(message = "server error"){
+        return new CustomeErrorHandler(511, message)
     }
 }
 

@@ -8,5 +8,6 @@
     MONGODB,
     ECOMDB,
     JWTSECRET,
-    REFRESHKEY
+    REFRESHKEY,
+    ADMIN
  } = process.env;

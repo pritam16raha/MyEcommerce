@@ -9,8 +9,14 @@ import router from './routes';
 import errorHandler from './middleware/errorHandler';
 import mongoose from 'mongoose';
 import CustomeErrorHandler from './customError/CustomErrorHandler';
+import path from 'path';
 
-app.use(express.json());
+
+global.appRoot = path.resolve(__dirname); //appRoot is used in product->productController.js->line number 33
+
+app.use(express.urlencoded({ extended: false })) //to accecpt multipart form data, we use this line
+
+app.use(express.json()); //to accecpt json form data, we use this line
 
 app.use('/ecom',router);
 
